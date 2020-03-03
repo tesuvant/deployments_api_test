@@ -6,7 +6,7 @@ node {
    stage('Build') {
        sh """#!/bin/bash -uex
          echo "Building ..."
-         sleep 3
+         sleep 2
        """
    }
    stage('Start deploy') {
@@ -15,7 +15,7 @@ node {
          ID=\$(curl -d '{"ref": "staging"}' -X POST -H "Authorization: token $PASSWORD" 'https://api.github.com/repos/tesuvant/deployments_api_test/deployments' | /var/jenkins_home/jq -r .id)
          echo \$ID > id
          echo "Deploying ..."
-         sleep 10
+         sleep 2
          curl -d '{"state": "pending"}' -X POST -H "Authorization: token $PASSWORD" "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
        """
      }
