@@ -10,13 +10,15 @@ node {
        """
    }
    stage('Start deploy') {
+     withCredentials([usernamePassword(credentialsId: 'ghe-token', variable: 'TOKEN')]){
        sh """#!/bin/bash -uex
-         ID=\$(curl -d '{"ref": "staging"}' -X POST -H "Authorization: token db455689968c2dc0064646a4c074bc1266fbac88" 'https://api.github.com/repos/tesuvant/deployments_api_test/deployments' | jq -r .id)
+         ID=\$(curl -d '{"ref": "staging"}' -X POST -H "Authorization: token $TOKEN" 'https://api.github.com/repos/tesuvant/deployments_api_test/deployments' | jq -r .id)
          echo \$ID > id
          echo "Deploying ..."
          sleep 10
-         curl -d'{"state": "queued"}' -X POST -H "Authorization: token db455689968c2dc0064646a4c074bc1266fbac88" 'https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses'
+         curl -d'{"state": "queued"}' -X POST -H "Authorization: token $TOKEN" 'https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses'
        """
+     }
 
    }
    stage('Deployment OK?') {
