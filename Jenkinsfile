@@ -10,7 +10,7 @@ node {
        """
    }
    stage('Start deploy') {
-     withCredentials([usernamePassword(credentialsId: 'ghe-token', variable: 'TOKEN')]){
+     withCredentials([usernamePassword(credentialsId: 'ghe-token', passwordVariable: 'TOKEN')]){
        sh """#!/bin/bash -uex
          ID=\$(curl -d '{"ref": "staging"}' -X POST -H "Authorization: token $TOKEN" 'https://api.github.com/repos/tesuvant/deployments_api_test/deployments' | jq -r .id)
          echo \$ID > id
