@@ -9,7 +9,7 @@ node {
          sleep 2
        """
    }
-   stage('Deploy to Staging') {
+   stage("Deploy from $BRANCH_NAME") {
      withCredentials([usernamePassword(credentialsId: 'ghe-token', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
          sh """#!/bin/bash -uex
          ID="null"
