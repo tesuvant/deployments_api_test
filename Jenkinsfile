@@ -25,7 +25,7 @@ node {
          -H "application/vnd.github.flash-preview+json" \
          "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
          sleep 3
-         curl -d '{"state": "success", "environment": "qa", "description": "All done", "log_url": "http://www.google.com"}' \
+         curl -d '{"state": "success", "environment": "qa", "description": "All done", "log_url": "http://www.google.com", "environment_url": "http://nasa.gov"}' \
            -X POST -H "Authorization: token $PASSWORD" \
            -H "Accept: application/vnd.github.ant-man-preview+json" \
            "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
