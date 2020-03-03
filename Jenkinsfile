@@ -16,7 +16,7 @@ node {
          echo \$ID > id
          echo "Deploying ..."
          sleep 10
-         curl -d'{"state": "queued"}' -X POST -H "Authorization: token $PASSWORD" 'https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses'
+         curl -d'{"state": "queued"}' -X POST -H "Authorization: token $PASSWORD" "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
        """
      }
 
