@@ -20,7 +20,17 @@ node {
          done
          echo "Deploying ..."
          sleep 2
-         curl -d '{"state": "queued"}' -X POST -H "Authorization: token $PASSWORD" "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
+         curl -d '{"state": "pending"}' -X POST -H "Authorization: token $PASSWORD" "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
+         sleep 3
+         curl -d '{"state": "success"}' -X POST -H "Authorization: token $PASSWORD" "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
+         sleep 3
+         curl -d '{"state": "error"}' -X POST -H "Authorization: token $PASSWORD" "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
+         sleep 3
+         curl -d '{"state": "failure"}' -X POST -H "Authorization: token $PASSWORD" "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
+         sleep 3
+         curl -d '{"state": "in_progress"}' -X POST -H "Authorization: token $PASSWORD" "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
+
+         
        """
      }
 
