@@ -9,23 +9,27 @@ node {
          sleep 2
        """
    }
-   stage('Start deploy') {
+   stage('Deploy to Staging') {
      withCredentials([usernamePassword(credentialsId: 'ghe-token', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
          sh """#!/bin/bash -uex
          ID="null"
          while [ "\$ID" == "null" ]
          do
-           ID=\$(curl -d '{"ref": "staging"}' -X POST -H "Authorization: token $PASSWORD" 'https://api.github.com/repos/tesuvant/deployments_api_test/deployments' | /var/jenkins_home/jq -r .id)
+           ID=\$(curl -d '{"ref": "staging", "description": "Deploy request from ..."}' -X POST -H "Authorization: token $PASSWORD" 'https://api.github.com/repos/tesuvant/deployments_api_test/deployments' | /var/jenkins_home/jq -r .id)
            sleep 1
          done
          echo "Deploying ..."
+         
          sleep 2
-         curl -d '{"state": "in_progress", "environment": "qa", "description": "Pipeline running"}' \
+         
+         curl -d '{"state": "in_progress", "environment": "staging", "description": "Pipeline running"}' \
          -X POST -H "Authorization: token $PASSWORD" \
          -H "application/vnd.github.flash-preview+json" \
          "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
+         
          sleep 3
-         curl -d '{"state": "success", "environment": "qa", "description": "All done", "log_url": "http://www.google.com", "environment_url": "http://nasa.gov"}' \
+         
+         curl -d '{"state": "success", "environment": "staging", "description": "staging done", "log_url": "http://depl.logs", "environment_url": "http://service.in.staging.env"}' \
            -X POST -H "Authorization: token $PASSWORD" \
            -H "Accept: application/vnd.github.ant-man-preview+json" \
            "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
