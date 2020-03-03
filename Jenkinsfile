@@ -22,7 +22,7 @@ node {
          
          sleep 2
          
-         curl -d '{"state": "in_progress", "environment": "staging", "description": "Pipeline running"}' \
+         curl -d '{"state": "queued", "environment": "staging", "description": "Pipeline running"}' \
          -X POST -H "Authorization: token $PASSWORD" \
          -H "application/vnd.github.flash-preview+json" \
          "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
