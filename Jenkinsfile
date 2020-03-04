@@ -50,7 +50,7 @@ node {
          sh """#!/bin/bash -uex
            curl -d '{"state": "success", "target_url": "https://foo.bar", "description": "Build OK", "context": "CI/jenkins"}' \
              -X POST -H "Authorization: token $PASSWORD" \
-             "https://api.github.com/repos/tesuvant/deployments_api_test/statuses/$commitHash/statuses"    
+             "https://api.github.com/repos/tesuvant/deployments_api_test/statuses/$commitHash"
          """
        }
    }
