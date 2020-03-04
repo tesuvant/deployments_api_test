@@ -1,8 +1,7 @@
 
 node {
-   stage('SCM') { // for display purposes
-      git 'https://github.com/tesuvant/deployments_api_test.git'
-   }
+   checkout scm
+
    stage('Build') {
        sh """#!/bin/bash -uex
          echo "Building ..."
