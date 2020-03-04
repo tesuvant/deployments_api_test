@@ -45,11 +45,12 @@ node {
         done
         echo "Deploy OK!"
        """
+       commitHash = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%H'").trim()
        withCredentials([usernamePassword(credentialsId: 'ghe-token', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
          sh """#!/bin/bash -uex
            curl -d '{"state": "success", "target_url": "https://foo.bar", "description": "Build OK", "context": "CI/jenkins"}' \
              -X POST -H "Authorization: token $PASSWORD" \
-             "https://api.github.com/repos/tesuvant/deployments_api_test/statuses/\$GIT_COMMIT/statuses"    
+             "https://api.github.com/repos/tesuvant/deployments_api_test/statuses/$commitHash/statuses"    
          """
        }
    }
