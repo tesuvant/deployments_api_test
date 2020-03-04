@@ -38,10 +38,10 @@ node {
    }
    stage('Deployment OK?') {
        sh """#!/bin/bash -uex
-        for i in {1..5}; do
+        for i in {1..2}; do
             echo "Polling status \$i ..."
             echo "Deployment still ongoing"
-            sleep 2
+            sleep 1
         done
         echo "Deploy OK!"
        """
