@@ -2,7 +2,7 @@
 
 pipeline {
   agent {
-      label 'any'
+      label 'master'
   }
   environment {
     GITHUB_OAUTH = credentials('')
