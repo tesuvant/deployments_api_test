@@ -1,0 +1,20 @@
+@Library('lib') _
+
+pipeline {
+  agent {
+      label 'any'
+  }
+  environment {
+    GITHUB_OAUTH = credentials('')
+  }
+  stages {
+    stage('clone') {
+      steps {
+        script {
+          deploymentId = githubCreateDeployment("deployments_api_test")
+          echo deploymentId
+        }
+      }
+    }
+  }
+}
