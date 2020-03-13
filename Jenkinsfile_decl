@@ -1,4 +1,3 @@
-@Library('lib') _
 
 pipeline {
   agent {
