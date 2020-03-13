@@ -10,7 +10,7 @@ pipeline {
     stage('BLAH') {
       steps {
         script {
-          deploymentId = githubCreateDeployment("deployments_api_test")
+          deploymentId = githubCreateDeployment()
           echo deploymentId
         }
       }
