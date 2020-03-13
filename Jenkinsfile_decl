@@ -7,7 +7,7 @@ pipeline {
     GITHUB_OAUTH = credentials('')
   }
   stages {
-    stage('clone') {
+    stage('BLAH') {
       steps {
         script {
           deploymentId = githubCreateDeployment("deployments_api_test")
