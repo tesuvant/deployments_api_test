@@ -1,17 +1,16 @@
-@Library('lib') _
 
 pipeline {
   agent {
       label 'master'
   }
   environment {
-    GITHUB_OAUTH = credentials('')
+    TOKEN = credentials('ghe-token')
   }
   stages {
-    stage('clone') {
+    stage('BLAH') {
       steps {
         script {
-          deploymentId = githubCreateDeployment("deployments_api_test")
+          deploymentId = githubCreateDeployment()
           echo deploymentId
         }
       }
