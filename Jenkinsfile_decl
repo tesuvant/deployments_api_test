@@ -4,7 +4,7 @@ pipeline {
       label 'master'
   }
   environment {
-    TOKEN = credentials('ghe-token')
+    TOKEN = credentials('ghe-token_secret_text')
   }
   stages {
     stage('BLAH') {
