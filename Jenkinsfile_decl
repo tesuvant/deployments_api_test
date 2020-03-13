@@ -4,7 +4,7 @@ pipeline {
       label 'master'
   }
   environment {
-    GITHUB_OAUTH = credentials('')
+    GITHUB_OAUTH = credentials('ghe-token')
   }
   stages {
     stage('BLAH') {
