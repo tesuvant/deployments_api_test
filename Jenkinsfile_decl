@@ -10,7 +10,7 @@ pipeline {
     stage('BLAH') {
       steps {
         script {
-          Map opts = [auto_merge: true, description: "Blah", environment: "qa"]
+          Map opts = [:]// [auto_merge: true, description: "Blah", environment: "qa"]
           deploymentId = githubCreateDeployment(opts)
           echo deploymentId
           
