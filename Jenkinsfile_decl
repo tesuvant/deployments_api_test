@@ -13,6 +13,14 @@ pipeline {
           Map opts = [auto_merge: true, description: "Blah", environment: "qa"]
           deploymentId = githubCreateDeployment(opts)
           echo deploymentId
+          
+          opts = [auto_merge: true, environment: ""]
+          deploymentId = githubCreateDeployment(opts)
+          echo deploymentId
+          
+          opts = [:]
+          deploymentId = githubCreateDeployment(opts)
+          echo deploymentId
         }
       }
     }
