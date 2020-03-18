@@ -20,9 +20,16 @@ node {
          done
          echo "Deploying ..."
          sleep 2
-         curl -d '{"state": "pending", "environment": "qa", "description": "Pipeline running"}' -X POST -H "Authorization: token $PASSWORD" "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
+         curl -d '{"state": "in_progress", "environment": "qa", "description": "Pipeline running"}' \
+         -X POST -H "Authorization: token $PASSWORD" \
+         -H "application/vnd.github.flash-preview+json" \
+         "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
          sleep 3
-         curl -d '{"state": "success", "environment": "qa", "description": "All done", "target_url": "www.google.com"}' -X POST -H "Authorization: token $PASSWORD" "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"         curl -d '{"state": "error"}' -X POST -H "Authorization: token $PASSWORD" "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
+         curl -d '{"state": "success", "environment": "qa", "description": "All done", "log_url": "http://www.google.com", "environment_url": "http://nasa.gov"}' \
+           -X POST -H "Authorization: token $PASSWORD" \
+           -H "Accept: application/vnd.github.ant-man-preview+json" \
+           "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
+         #curl -d '{"state": "error"}' -X POST -H "Authorization: token $PASSWORD" "https://api.github.com/repos/tesuvant/deployments_api_test/deployments/\$ID/statuses"
          
          
        """
@@ -31,13 +38,20 @@ node {
    }
    stage('Deployment OK?') {
        sh """#!/bin/bash -uex
-        for i in {1..5}; do
+        for i in {1..2}; do
             echo "Polling status \$i ..."
             echo "Deployment still ongoing"
-            sleep 2
+            sleep 1
         done
         echo "Deploy OK!"
        """
-
+       commitHash = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%H'").trim()
+       withCredentials([usernamePassword(credentialsId: 'ghe-token', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+         sh """#!/bin/bash -uex
+           curl -k -s -d '{"state": "success", "target_url": "${env.BUILD_URL}", "description": "Build OK", "context": "CI/jenkins"}' \
+             -X POST -H "Authorization: token $PASSWORD" \
+             "https://api.github.com/repos/tesuvant/deployments_api_test/statuses/$commitHash"
+         """
+       }
    }
 }

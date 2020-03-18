@@ -1,0 +1,22 @@
+
+pipeline {
+  agent {
+      label 'master'
+  }
+  environment {
+    TOKEN = credentials('ghe-token_secret_text')
+  }
+  stages {
+    stage('BLAH') {
+      steps {
+        script {
+          //Map opts = [auto_merge: true, description: "Blah", environment: "qa"]
+          deploymentId = githubCreateDeployment()
+          echo deploymentId
+          
+
+        }
+      }
+    }
+  }
+}
